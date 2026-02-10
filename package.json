@@ -1,0 +1,16 @@
+{
+  "name": "software-developer",
+  "version": "1.0.0",
+  "description": "Dev Workshop — AI-powered project scaffolding and development companion for Emika",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "fs-extra": "^11.2.0",
+    "marked": "^12.0.0"
+  }
+}
