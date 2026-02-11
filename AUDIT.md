@@ -205,3 +205,52 @@
 | SKILL.md | B | Good reference, missing code generation guidance |
 
 **Bottom line:** This is a well-built project management dashboard with great reference materials (templates, stacks, integrations). But it's branded as a "Software Developer" AI Employee and it doesn't develop software. The AI creates tracker entries, not code. Fix #1 (code generation guidance) alone would transform this from a B- to an A-.
+
+---
+
+## Fixes Applied
+
+**Date:** 2026-02-11
+
+### Critical Fixes
+1. **Code generation guidance added to SKILL.md** — Added a "Code Generation — Your Primary Value" section explaining that the AI should actually write code using `exec`, not just create project tracker entries. Includes a workflow for code generation and a quick-start pattern.
+
+2. **Unified onboarding paths** — Rewrote BOOTSTRAP.md to reduce 5 steps to 2-3 questions, added post-onboarding guidance, edge case handling, and explicit instruction to generate code (not just tracker entries). The chat onboarding now complements rather than competes with the UI wizard.
+
+3. **Loading states added throughout** — Every page render now calls `showLoading()` before async data fetches. Added CSS spinner animation (`.loading-state`, `.loading-spinner`).
+
+4. **`marked` library now used** — Server imports `marked` and exposes `POST /api/render-markdown` endpoint. Guide detail pages render content through server-side `marked` for proper markdown (code fences, blockquotes, numbered lists, tables). Client-side `md()` improved as fallback with code fence and blockquote support.
+
+### High Fixes
+5. **Settings/Config page added** — New `#settings` route with full UI for experience level, GitHub username, timeline, and preferred stack (frontend/backend/database/hosting). Added Settings nav item to sidebar.
+
+6. **Input validation on server** — Added `pickFields()`, `validateProject()`, `validateGuide()`, and `validateConfig()` helpers. PUT endpoints no longer do blind `{...req.body}` spread — only allowed fields are accepted. Type checking for strings, arrays, and enum validation for status/category fields.
+
+7. **Replaced `prompt()` with proper modal** — "Use Template" now opens a styled modal with form input instead of native `prompt()` dialog.
+
+8. **Next-step guidance after project creation** — New projects show a "Project Created! Here's What to Do Next" card with 3 actionable steps (review stack, ask AI to generate code, work through features). Styled with `.next-steps-card` CSS.
+
+9. **Fixed wizard feature-add double-quote bug** — Removed the extra quote from `onclick="window._wizFeatureAdd()""`
+
+10. **Guide creation UI added** — New `#guides/new` route with full editor (title, category dropdown, tags, markdown content textarea). Guide edit button added to guide detail view. "New Guide" button on guides list page.
+
+11. **Wizard step 1 validation** — Cannot proceed past step 1 without entering a project name. Shows error toast.
+
+### Medium Fixes
+12. **Server data split into separate files** — TEMPLATES, STACKS, and INTEGRATIONS moved to `data/templates.js`, `data/stacks.js`, `data/integrations.js`. Server.js reduced from ~1850 lines to ~320 lines.
+
+13. **Improved stack recommendation quiz** — Replaced hardcoded if-statements with a scoring matrix system. Each answer adds weighted scores across categories, and the top scorer per category wins. Much more nuanced recommendations.
+
+14. **Error handling on client API calls** — All `window._` action handlers now have try/catch blocks. API helper improved to parse error messages from response body.
+
+15. **`esc()` function improved** — Replaced DOM-based escaping with efficient string replace chain (no DOM allocation per call). Also escapes quotes for attribute safety.
+
+16. **SKILL.md updated with UI references** — Added section directing AI to reference Templates tab, Stacks comparison, Integrations, Settings page, and Guides in conversations.
+
+17. **BOOTSTRAP.md post-onboarding guidance** — Added "After Onboarding" section with 5 specific ongoing behaviors (generate code, save guides, track progress, recommend integrations, be proactive).
+
+18. **Feature add focus** — When adding a feature in the wizard, the new input auto-focuses after render.
+
+19. **Guide detail edit functionality** — Added edit button and modal for editing existing guides (title, category, content).
+
+20. **Client-side markdown improved** — Added code fence support, blockquote support, and numbered list handling to the fallback `md()` parser.
