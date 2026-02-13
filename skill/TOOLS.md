@@ -1,36 +1,48 @@
-# Dev Workshop API Reference
+# Tools & Environment
 
-Base: same origin (port 3000)
+## Pre-installed Tools
+- **Node.js** — runtime for all projects
+- **npm** — package manager
+- **PM2** — production process manager (auto-restart, logs, monitoring)
+- **SQLite** (better-sqlite3) — embedded database, zero config
+- **Playwright + Chromium** — browser automation, screenshots, testing
+- **Express.js** — web framework (install per project)
 
-## Projects
-| Method | Endpoint | Body |
-|--------|----------|------|
-| GET | /api/projects | - |
-| POST | /api/projects | {name, description, status, stack, architecture, features, milestones, notes} |
-| PUT | /api/projects/:id | partial update |
-| DELETE | /api/projects/:id | - |
-| POST | /api/projects/from-template | {templateId, name} |
+## PM2 Commands
+```bash
+pm2 start server.js --name "app" --watch
+pm2 status          # list running apps
+pm2 logs app        # view logs
+pm2 restart app     # restart
+pm2 delete app      # stop and remove
+pm2 save            # save for auto-restore
+```
 
-## Templates (read-only)
-| GET | /api/templates | |
-| GET | /api/templates/:id | |
+## Browser & Screenshots (Playwright)
 
-## Stacks (read-only)
-| GET | /api/stacks | ?category=frontend|backend|database|hosting|auth |
+Playwright and Chromium are pre-installed. Use them for browsing websites, taking screenshots, scraping content, and testing.
 
-## Integrations (read-only)
-| GET | /api/integrations | |
-| GET | /api/integrations/:id | |
+```bash
+# Quick screenshot
+npx playwright screenshot --full-page https://example.com screenshot.png
 
-## Guides
-| GET | /api/guides | ?category=&projectId=&search= |
-| POST | /api/guides | {title, content, category, projectId, tags} |
-| PUT | /api/guides/:id | partial update |
-| DELETE | /api/guides/:id | - |
+# In Node.js
+const { chromium } = require("playwright");
+const browser = await chromium.launch();
+const page = await browser.newPage();
+await page.goto("https://example.com");
+await page.screenshot({ path: "screenshot.png", fullPage: true });
+await browser.close();
+```
 
-## Config
-| GET | /api/config | |
-| PUT | /api/config | {skillLevel, preferredStack, githubUsername, timeline} |
+Do NOT install Puppeteer or download Chromium — Playwright is already here and ready to use.
 
-## Analytics
-| GET | /api/analytics | |
+## Project Structure
+```
+/home/node/projects/<name>/    # your apps go here
+/home/node/app/                # placeholder app (Dev Workshop)
+/home/node/app/start.sh        # startup script (update when deploying)
+```
+
+## Port 3000
+Your app MUST listen on port 3000. Nginx proxies this to the browser panel.
