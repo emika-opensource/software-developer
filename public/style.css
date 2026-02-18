@@ -1,8 +1,8 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --accent: #00d4aa;
-  --accent-dim: rgba(0, 212, 170, 0.12);
+  --accent: #c0c0c0;
+  --accent-dim: rgba(192, 192, 192, 0.08);
   --bg: #06060a;
   --bg-elevated: #0a0a10;
   --surface: #0c0c14;
